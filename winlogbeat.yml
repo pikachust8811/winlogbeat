@@ -1,0 +1,24 @@
+winlogbeat.event_logs:
+  - name: ${EVTX_FILE}
+    no_more_events: stop
+    
+winlogbeat.shutdown_timeout: 30s
+winlogbeat.registry_file: evtx-registry.yml
+
+# ====================== Elasticsearch template settings =======================
+setup.template.name: "winlogbeat"
+setup.template.pattern: "winlogbeat-*"
+
+setup.template.settings:
+  index.number_of_shards: 1
+# ---------------------------- Elasticsearch Output ----------------------------
+output.elasticsearch:
+  # Array of hosts to connect to.
+  hosts: ["192.168.70.120:9203"]
+  index: "winlogbeat-hostname"
+
+setup.ilm.enabled: false
+
+# Microsoft-Windows-PowerShell%4Operational.evtx
+# Microsoft-Windows-Sysmon%4Operational.evtx
+# Security.evtx
